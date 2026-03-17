@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TODO</title>
+</head>
+<body>
+    <style>
+        .task {
+            border: 1px solid black;
+            padding: 10px;
+            border-radius: 20px;
+            margin: 5px;
+        }
+        .done p{
+            background-color: lightgray;
+            text-decoration: line-through;
+        }
+    </style>
+    <h1>TODO List</h1>
+    <form action="/add">
+        <input type="text" placeholder="Enter a new task">
+        <input type="submit" value="Add">
+    </form>
+    <div class="task">
+        <p>Task 1</p>
+        <button>Done</button>
+        <button>Delete</button>
+    </div>
+    <div class="task done">
+        <p>Task 2</p>
+        <button>Undone</button>
+        <button>Delete</button>
+    </div>
+</body>
+</html>
