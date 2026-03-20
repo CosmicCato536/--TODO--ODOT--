@@ -1,10 +1,12 @@
-from flask import Flask
+from flask import Flask, render_template
+import database
 
 app = Flask(__name__)
 
-@app.route('/')
+@app.route("/")
 def index():
-    return 'Hello, this is the index page!'
+    tasks= database.get_tasks()
+    return render_template("index.html", tasks=tasks)
 
-if __name__ == '__main__':
-    app.run(debug=False)
+if __name__ == "__main__":
+    app.run(debug=True)

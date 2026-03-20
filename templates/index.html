@@ -23,15 +23,13 @@
         <input type="text" placeholder="Enter a new task">
         <input type="submit" value="Add">
     </form>
+
+    {% for task in tasks %}
     <div class="task">
-        <p>Task 1</p>
+        <p>{{Task[1]}}</p>
         <button>Done</button>
         <button>Delete</button>
     </div>
-    <div class="task done">
-        <p>Task 2</p>
-        <button>Undone</button>
-        <button>Delete</button>
-    </div>
+    {% endfor %}
 </body>
 </html>
