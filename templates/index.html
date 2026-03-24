@@ -19,16 +19,26 @@
         }
     </style>
     <h1>TODO List</h1>
-    <form action="/add">
-        <input type="text" placeholder="Enter a new task">
+    <form action="/add" method="post">
+        <input type="text" placeholder="Enter a new task" name="task-text">
         <input type="submit" value="Add">
     </form>
 
     {% for task in tasks %}
-    <div class="task">
-        <p>{{Task[1]}}</p>
-        <button>Done</button>
-        <button>Delete</button>
+    <div class="task {% if task[2] == 1 %}done{% endif %}">
+        <p>{{task[1]}}</p>
+        <form action="/change_status" method="post">
+            <input type="hidden" name="task-id" value="{{task[0]}}">
+            {% if task[2] == 0 %}
+            <button type="submit">Done</button>
+            {% else %}
+            <button type="submit">Undone</button>
+            {% endif %}
+        </form>
+        <form action="/delete" method="post">
+            <input type="hidden" name="task-id" value="{{task[0]}}">
+            <button type="submit">Delete</button>
+        </form>
     </div>
     {% endfor %}
 </body>
