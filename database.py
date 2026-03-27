@@ -9,7 +9,7 @@ def create_db():
             text VARCHAR(1000) NOT NULL DEFAULT '',
             is_done INTEGER DEFAULT  0
         )
-    '''
+          '''
 
     cursor.execute(sql)
     conn.commit()
