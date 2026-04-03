@@ -31,5 +31,27 @@ def change_status():
         database.change_task_status(task_id)
     return redirect(url_for('index'))
 
+@app.route("/register", methods=["POST", "GET"])
+def register():
+    if request.method == "GET":
+        return render_template("register.html")
+    elif request.method == "POST":
+        login = request.form["login"]
+        pass1 = request.form["pass1"]
+        pass2 = request.form["pass2"]
+        errors = []
+        # проверка существования пользователя
+
+        # проверка на одинаковость паролей
+        if pass1 != pass2:
+            errors.append("Пароли НЕ совпадают")
+        # проверка качества пароля
+        if len(pass1) < 4:
+            errors.append("Пароль должен содержать не менее 4 символов")
+        
+        if len(errors) == 0:
+            database.add_user(login, pass1)
+            return redirect(url_for("index"))
+        
 if __name__ == "__main__":
     app.run(debug=True)

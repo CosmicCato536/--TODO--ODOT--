@@ -1,4 +1,5 @@
 import sqlite3
+from werkzeug.security import generate_password_hash, check_password_hash
 
 def create_db():
     conn = sqlite3.connect("todo.db")
@@ -56,8 +57,10 @@ def change_task_status(task_id):
 def add_user(login, password):
     conn = sqlite3.connect("todo.db")
     cursor = conn.cursor()
+    hashed_password = generate_password_hash(password)
 
-    cursor.execute("INSERT INTO user (login, password) VALUES (?, ?)", (login, password))
+    cursor.execute("INSERT INTO user (login, password) VALUES (?, ?)", (login, hashed_password))
+    print("Создан пользователь" + login)
     conn.commit()
 
 def get_users():
