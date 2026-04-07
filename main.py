@@ -41,17 +41,34 @@ def register():
         pass2 = request.form["pass2"]
         errors = []
         # проверка существования пользователя
-
+        if database.is_user_exists(login):
+            errors.append("Такой пользователь уже существует")
         # проверка на одинаковость паролей
         if pass1 != pass2:
             errors.append("Пароли НЕ совпадают")
+
         # проверка качества пароля
         if len(pass1) < 4:
             errors.append("Пароль должен содержать не менее 4 символов")
         
         if len(errors) == 0:
             database.add_user(login, pass1)
-            return redirect(url_for("index"))
+            return render_template("success_register.html")
+        
+        else:
+            return render_template("register.html", errors=errors)
+        
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "GET":
+        return render_template("login.html")
+    elif request.method == "POST":
+        login = request.form["login"]
+        password = request.form["password"]
+
+        auth_user = database.auth_user(login, password)
+        if auth_user == -1:
+            return render_template("login.html", errors=["Неверный логин или пароль"])
         
 if __name__ == "__main__":
     app.run(debug=True)

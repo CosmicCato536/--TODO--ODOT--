@@ -63,6 +63,15 @@ def add_user(login, password):
     print("Создан пользователь" + login)
     conn.commit()
 
+def is_user_exists(login):
+    conn = sqlite3.connect("todo.db")
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM user WHERE login = ?", (login,))
+    user = cursor.fetchone()
+
+    return user != None
+
 def get_users():
     conn = sqlite3.connect("todo.db")
     cursor = conn.cursor()
@@ -70,6 +79,21 @@ def get_users():
     cursor.execute("SELECT * FROM user")
     users = cursor.fetchall()
     return users
+
+def auth_user(login, password):
+    conn = sqlite3.connect("todo.db")
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM user WHERE login=? AND password=?", (login, password)
+                   )
+    user = cursor.fetchone()
+    if not user:
+        return -1
+    
+    if check_password_hash(user[2], password):
+        return user[0]
+    else:
+        return -1
 
 if __name__ == "__main__":
     create_db()
