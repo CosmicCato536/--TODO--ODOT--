@@ -1,12 +1,17 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 import database
+import test
 
 app = Flask(__name__)
+app.secret_key = "384htoeirgnhufidjkkejhiwfdikwejufdew"
 
 @app.route("/")
 def index():
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+    
     tasks= database.get_tasks()
-    return render_template("index.html", tasks=tasks)
+    return render_template("index.html", tasks=tasks, user_login=session["login"])
 
 @app.route('/add', methods=['POST'])
 def add():
@@ -66,9 +71,16 @@ def login():
         login = request.form["login"]
         password = request.form["password"]
 
-        auth_user = database.auth_user(login, password)
-        if auth_user == -1:
+        auth_user= database.auth_user(login, password)
+        if auth_user == None:
             return render_template("login.html", errors=["Неверный логин или пароль"])
+        else:
+            print('Успешная авторизация')
+            session["user_id"] = auth_user["user_id"]
+            session["login"] = auth_user["user_login"]
+            return redirect(url_for('index'))
+            
+        
         
 if __name__ == "__main__":
     app.run(debug=True)

@@ -88,17 +88,15 @@ def auth_user(login, password):
                    )
     user = cursor.fetchone()
     if not user:
-        return -1
+        return None
     
     if check_password_hash(user[2], password):
-        return user[0]
+        return {
+            "user_id": user[0],
+            "user_login": user[1]
+        }
     else:
         return -1
 
 if __name__ == "__main__":
     create_db()
-    add_user("admin", "SAIKT")
-    add_user("user", "password")
-
-    users = get_users()
-    print(users)
