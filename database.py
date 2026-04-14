@@ -29,8 +29,9 @@ def add_task(task_text, user_id):
     conn = sqlite3.connect("todo.db")
     cursor = conn.cursor()
 
-    cursor.execute("INSERT INTO task (text) VALUES (?)", (task_text, user_id))
+    cursor.execute("INSERT INTO task (text, user_id) VALUES (?,?)", (task_text, user_id))
     conn.commit()
+    conn.close()
 
 def get_tasks():
     conn = sqlite3.connect("todo.db")

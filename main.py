@@ -80,7 +80,11 @@ def login():
             session["user_id"] = auth_user["user_id"]
             session["login"] = auth_user["user_login"]
             return redirect(url_for('index'))
-            
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect(url_for("login"))
         
         
 if __name__ == "__main__":

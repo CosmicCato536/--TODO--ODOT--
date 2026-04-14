@@ -20,6 +20,7 @@
     </style>
     <h1>TODO List</h1>
     <h2>Привет, {{ user_login }}</h2>
+    <a href="{{url_for('logout')}}"><button>Выйти из аккаунта</button></a>
     <form action="/add" method="post">
         <input type="text" placeholder="Enter a new task" name="task-text">
         <input type="submit" value="Add">
