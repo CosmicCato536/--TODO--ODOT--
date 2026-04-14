@@ -25,11 +25,11 @@ def create_db():
 
     conn.commit()
 
-def add_task(task_text):
+def add_task(task_text, user_id):
     conn = sqlite3.connect("todo.db")
     cursor = conn.cursor()
 
-    cursor.execute("INSERT INTO task (text) VALUES (?)", (task_text,))
+    cursor.execute("INSERT INTO task (text) VALUES (?)", (task_text, user_id))
     conn.commit()
 
 def get_tasks():
@@ -84,7 +84,7 @@ def auth_user(login, password):
     conn = sqlite3.connect("todo.db")
     cursor = conn.cursor()
 
-    cursor.execute("SELECT * FROM user WHERE login=? AND password=?", (login, password)
+    cursor.execute("SELECT * FROM user WHERE login=?", (login,)
                    )
     user = cursor.fetchone()
     if not user:

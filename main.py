@@ -16,8 +16,9 @@ def index():
 @app.route('/add', methods=['POST'])
 def add():
     task_text = request.form.get('task-text')
+    user_id = session["user_id"]
     if task_text:
-        database.add_task(task_text)
+        database.add_task(task_text, user_id)
     return redirect(url_for('index'))
 
 @app.route("/delete", methods=['POST'])
@@ -58,7 +59,7 @@ def register():
         
         if len(errors) == 0:
             database.add_user(login, pass1)
-            return render_template("success_register.html")
+            return render_template("login.html")
         
         else:
             return render_template("register.html", errors=errors)
